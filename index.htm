@@ -1,386 +1,273 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SML Employee Effort Tracker</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="print.css" media="print">
-    <style>
-        /* Basic CSS for the access denied overlay and hidden input */
-        #accessDeniedOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f0f0f0; /* Light background */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 1000; /* Make sure it's on top */
-            color: #333;
-        }
-        #accessDeniedOverlay h1 {
-            color: #dc3545; /* Red for error */
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        #accessDeniedOverlay p {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-        #secretPasswordInputContainer {
-            margin-top: 20px;
-            display: flex; /* Changed to flex to make it visible */
-            flex-direction: column;
-            align-items: center;
-        }
-        #secretPasswordInputContainer input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            margin-bottom: 10px;
-            width: 250px;
-            max-width: 80%;
-        }
-        #secretPasswordInputContainer button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
-        #secretPasswordInputContainer button:hover {
-            background-color: #45a049;
-        }
-        #passwordErrorMessage {
-            color: #dc3545;
-            margin-top: 10px;
-            display: none; /* Hidden by default */
-        }
-
-        /* --- New CSS for the Modal Pop-up --- */
-        /* Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1001; /* Sit on top (higher than other elements) */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            padding-top: 60px; /* Location of the box */
-        }
-
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; /* 5% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-            max-width: 900px; /* Max width for larger screens */
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-            animation-name: animatetop;
-            animation-duration: 0.4s;
-            border-radius: 8px;
-            position: relative; /* For positioning the close button */
-        }
-
-        /* The Close Button */
-        .close-button {
-            color: #aaa;
-            float: right; /* Positions it to the right */
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            right: 15px;
-            top: 10px;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Add Animation */
-        @keyframes animatetop {
-            from {top: -300px; opacity: 0}
-            to {top: 0; opacity: 1}
-        }
-
-        /* Ensure the section content within the modal is always displayed */
-        /* This rule specifically targets sections *inside* a modal to override default hiding */
-        .modal .report-section { /* Added .modal prefix to make this rule more specific */
-            padding: 0; /* Remove default section padding if any */
-            margin-top: 20px; /* Add some space below close button */
-            display: block !important; /* Ensure it's always displayed within the modal when open */
-        }
-        /* --- End New CSS for the Modal Pop-up --- */
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SML Employee Effort Tracker</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
-    <div id="accessDeniedOverlay">
-        <h1>EET Login!</h1>
-        <p>Please enter the secret password to access the dashboard.</p>
-        <div id="secretPasswordInputContainer">
-            <input type="password" id="secretPasswordInput" placeholder="Enter password">
-            <button id="submitSecretPassword">Submit</button>
-            <p id="passwordErrorMessage"></p>
-        </div>
+
+<!-- LOGIN OVERLAY -->
+<div id="accessDeniedOverlay">
+  <div class="login-box">
+    <div class="login-logo">EET</div>
+    <h2>SML Employee Effort Tracker</h2>
+    <p>Enter your access password to continue</p>
+    <div class="login-form">
+      <input type="password" id="secretPasswordInput" placeholder="Password" autocomplete="current-password">
+      <button id="submitSecretPassword">Login</button>
+      <p id="passwordErrorMessage"></p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN DASHBOARD -->
+<div id="dashboardContent" style="display:none;">
+
+  <header>
+    <div class="header-top">
+      <h1>SML <span>Employee Effort Tracker</span></h1>
+      <div class="header-meta">
+        <span id="lastLoadedLabel" class="last-loaded"></span>
+        <button id="refreshDataBtn" class="btn-icon" title="Refresh Data">↻</button>
+      </div>
     </div>
 
-    <div id="dashboardContent" style="display: none;">
-        <header>
-            <h1>SML Employee Effort Tracker</h1>
-            <nav class="report-tabs">
-                <button class="tab-button active" id="allBranchSnapshotTabBtn">All Branch Snapshot</button>
-                <button class="tab-button" id="allStaffOverallPerformanceTabBtn">Overall Staff Performance</button>
-                <button class="tab-button" id="nonParticipatingBranchesTabBtn">Zero Visit Branches</button>
-                <button class="tab-button" id="branchPerformanceTabBtn">Branch Performance</button>
-                <button class="tab-button" id="detailedCustomerViewTabBtn">Detailed Customer View</button>
-                <button class="tab-button" id="employeeManagementTabBtn">Employee Management</button>
-                <button class="tab-button" id="nonParticipantReportTabBtn" onclick="showTab('nonParticipantReportSection')">Non-Participant Report</button>
-                <button class="tab-button" id="julyDashboardTabBtn">July Dashboard</button>
-            </nav>
-        </header>
-
-        <main>
-            <section id="reportsSection" class="report-section active">
-                <div class="controls-panel">
-                    <div class="filter-group">
-                        <label for="monthSelect">Month:</label>
-                        <select id="monthSelect"></select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="branchSelect">Branch:</label>
-                        <select id="branchSelect"></select>
-                    </div>
-                    <div class="filter-group" id="employeeFilterPanel" style="display: none;">
-                        <label for="employeeSelect">Employee:</label>
-                        <select id="employeeSelect"></select>
-                    </div>
-                </div>
-
-                <div class="view-options" id="viewOptions" style="display: none;">
-                    <button class="btn" id="viewBranchPerformanceReportBtn">View Branch Performance</button>
-                    <button class="btn" id="viewEmployeeSummaryBtn">View Employee Summary</button>
-                    <button class="btn" id="viewAllEntriesBtn">View All Entries</button>
-                    <button class="btn" id="viewPerformanceReportBtn">View Performance Report</button>
-                    <button class="btn" id="viewBranchVisitLeaderboardBtn">Branch Visit Leaderboard</button>
-                    <button class="btn" id="viewBranchCallLeaderboardBtn">Branch Call Leaderboard</button>
-                    <button class="btn" id="viewStaffParticipationBtn">Staff Participation</button>
-                </div>
-
-                <button class="btn download-btn" id="downloadOverallStaffPerformanceReportBtn">Download Overall Staff Performance CSV</button>
-
-                <div id="reportDisplay" class="report-display">
-                    <p>Select a report tab above or filter options to view data.</p>
-                </div>
-            </section>
-
-            <section id="employeeManagementSection" class="report-section">
-                <h2>Employee Management</h2>
-
-                <div class="employee-management-controls">
-                    <div class="management-form-container">
-                        <h3>Add New Employee</h3>
-                        <form id="addEmployeeForm" class="management-form">
-                            <label for="newEmployeeName">Employee Name:</label>
-                            <input type="text" id="newEmployeeName" required>
-
-                            <label for="newEmployeeCode">Employee Code:</label>
-                            <input type="text" id="newEmployeeCode" required>
-
-                            <label for="newBranchName">Branch Name:</label>
-                            <select id="newBranchName" required></select>
-
-                            <label for="newDesignation">Designation:</label>
-                            <input type="text" id="newDesignation" required>
-
-                            <button type="submit" class="btn">Add Employee</button>
-                        </form>
-                    </div>
-
-                    <div class="management-form-container">
-                        <h3>Bulk Add Employees</h3>
-                        <form id="bulkAddEmployeeForm" class="management-form">
-                            <label for="bulkEmployeeBranchName">Branch Name (for all employees in this list):</label>
-                            <select id="bulkEmployeeBranchName" required></select>
-
-                            <label for="bulkEmployeeDetails">Employee Details (Name, Code, Designation - one per line):</label>
-                            <textarea id="bulkEmployeeDetails" rows="10" placeholder="E.g., John Doe, E001, Sales Executive&#10;Jane Smith, E002, Marketing Officer" required></textarea>
-
-                            <button type="submit" class="btn">Bulk Add Employees</button>
-                        </form>
-                    </div>
-
-                    <div class="management-form-container">
-                        <h3>Delete Employee</h3>
-                        <form id="deleteEmployeeForm" class="management-form">
-                            <label for="deleteEmployeeCode">Employee Code to Delete:</label>
-                            <input type="text" id="deleteEmployeeCode" required>
-                            <button type="submit" class="btn delete-btn">Delete Employee</button>
-                        </form>
-                    </div>
-                </div>
-               <div id="employeeManagementMessage" class="message" style="display: none;"></div>
-            </section>
-
-            <section id="nonParticipantReportSection" class="report-section">
-                <h2>Non-Participating Employees Report</h2>
-                <p>This report lists all employees from the Master Employee list who have not participated in specific canvassing activities based on the current data from the main report.</p>
-
-                <div id="nonParticipantsMessage" class="message" style="display: none; margin-bottom: 20px;"></div>
-
-                <div class="report-subsection">
-                    <h3>Non-Participants in Visits</h3>
-                    <button id="downloadNonParticipantsInVisitBtn" class="btn">Download Non-Participants (Visit) CSV</button>
-                    <div id="nonParticipantsInVisitDisplay" class="customer-list-display" style="display: none;">
-                        <table id="nonParticipantsInVisitTable">
-                            <thead>
-                                <tr>
-                                    <th>SL.No.</th>
-                                    <th>Employee Code</th>
-                                    <th>Employee Name</th>
-                                    <th>Division</th>
-                                    <th>Designation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="nonParticipantsInVisitMessage" class="message" style="display: none;"></div>
-                </div>
-
-                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-                <div class="report-subsection">
-                    <h3>Non-Participants in Calls</h3>
-                    <button id="downloadNonParticipantsInCallBtn" class="btn">Download Non-Participants (Call) CSV</button>
-                    <div id="nonParticipantsInCallDisplay" class="customer-list-display" style="display: none;">
-                        <table id="nonParticipantsInCallTable">
-                            <thead>
-                                <tr>
-                                    <th>SL.No.</th>
-                                    <th>Employee Code</th>
-                                    <th>Employee Name</th>
-                                    <th>Division</th>
-                                    <th>Designation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="nonParticipantsInCallMessage" class="message" style="display: none;"></div>
-                </div>
-            </section>
-        </main>
-    <footer>
-        <p>&copy; 2025 Employee Canvassing Dashboard</p>
-    </footer>
-    </div> <div id="customerDetailsModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <section id="detailedCustomerViewSection" class="report-section">
-                <div class="controls-panel">
-                    <div class="filter-group">
-                        <label for="customerViewMonthSelect">Month:</label>
-                        <select id="customerViewMonthSelect"></select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="customerViewBranchSelect">Branch:</label>
-                        <select id="customerViewBranchSelect"></select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="customerViewEmployeeSelect">Employee:</label>
-                        <select id="customerViewEmployeeSelect"></select>
-                    </div>
-                    <button class="btn" id="loadCustomerDataBtn">Load Customer Data</button>
-                </div>
-
-                <div class="customer-list-display">
-                    <h3>Canvassed Customers</h3>
-                    <div class="table-container">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Prospect Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Activity Type</th>
-                                    <th>Date</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody id="detailedCustomerReportTableBody">
-                                <tr><td colspan="5">Select a branch, employee, and month to load customer data.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <button class="btn download-btn" id="downloadDetailedCustomerReportBtn">Download Customer Report CSV</button>
-                </div>
-
-                <div class="customer-details-display" id="customerDetailsContent" style="display: none;">
-                    <h3>Details for <span id="currentCustomerName"></span></h3>
-                    <div id="statusMessage" style="color: red;"></div>
-                    <div class="customer-details-card">
-                        <div class="customer-info-section full-width-section" id="employeeBranchInfo">
-                            <h3>Employee & Branch Info</h3>
-                            <div class="detail-row">
-                                <div class="detail-label">Employee Name:</div>
-                                <div class="detail-value" id="employeeNameValue"></div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Branch Name:</div>
-                                <div class="detail-value" id="branchNameValue"></div>
-                            </div>
-                        </div>
-                        <div class="customer-info-section card-color-1" id="customerCard1">
-                            <h4>Contact & Basic Info</h4>
-                            <p>Select a customer from the list to view details.</p>
-                        </div>
-                        <div class="customer-info-section card-color-2" id="customerCard2">
-                            <h4>Activity & Interests</h4>
-                            <p>Select a customer from the list to view details.</p>
-                        </div>
-                        <div class="customer-info-section card-color-3" id="customerCard3">
-                            <h4>Family & Profile</h4>
-                            <p>Select a customer from the list to view details.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+    <!-- KPI PULSE BAR — always visible, updates on data load -->
+    <div id="kpiPulseBar" class="kpi-pulse-bar">
+      <div class="kpi-chip" id="kpiTotalVisits"><span class="kpi-label">Visits</span><span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiTotalCalls"><span class="kpi-label">Calls</span><span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiTotalLeads"><span class="kpi-label">New Leads</span><span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiActiveBranches"><span class="kpi-label">Active Branches</span><span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiActiveStaff"><span class="kpi-label">Active Staff</span><span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiMonthProgress"><span class="kpi-label">Month Progress</span><span class="kpi-val">—</span></div>
     </div>
 
-    <div id="julyDashboardModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeJulyDashboardModalBtn">&times;</span>
-            <section id="julyDashboardSection" class="report-section">
-                <h2>July Dashboard</h2>
-                <div id="julyDashboardMessage" class="message" style="display: none;"></div>
-                <div id="julyDashboardDisplay">
-                    <p>Loading July Dashboard data...</p>
-                </div>
-            </section>
-        </div>
-    </div>
+    <nav class="report-tabs">
+      <button class="tab-button active" data-tab="reportsSection" id="allBranchSnapshotTabBtn">All Branch Snapshot</button>
+      <button class="tab-button" data-tab="reportsSection" id="allStaffOverallPerformanceTabBtn">Overall Staff</button>
+      <button class="tab-button" data-tab="reportsSection" id="nonParticipatingBranchesTabBtn">Zero Visit Branches</button>
+      <button class="tab-button" data-tab="reportsSection" id="branchPerformanceTabBtn">Branch Performance</button>
+      <button class="tab-button" data-tab="analyticsSection" id="analyticsTabBtn">📊 Analytics</button>
+      <button class="tab-button" data-tab="customerDetailsModal" id="detailedCustomerViewTabBtn">Customer View</button>
+      <button class="tab-button" data-tab="employeeManagementSection" id="employeeManagementTabBtn">Employee Mgmt</button>
+      <button class="tab-button" data-tab="nonParticipantReportSection" id="nonParticipantReportTabBtn">Non-Participant</button>
+      <button class="tab-button" data-tab="julyDashboardModal" id="julyDashboardTabBtn">July Dashboard</button>
+    </nav>
+  </header>
 
-    <script src="tabHandler.js"></script>
-    <script src="script.js"></script>
-    <script src="nonParticipantsReport.js"></script>
-    <script src="july_dashboard_tab.js"></script>
+  <main>
+
+    <!-- REPORTS SECTION (Snapshot, Overall, Zero-Visit, Branch) -->
+    <section id="reportsSection" class="report-section active">
+      <div class="controls-panel">
+        <div class="filter-group">
+          <label for="monthSelect">Month:</label>
+          <select id="monthSelect"></select>
+        </div>
+        <div class="filter-group">
+          <label for="branchSelect">Branch:</label>
+          <select id="branchSelect"></select>
+        </div>
+        <div class="filter-group" id="employeeFilterPanel" style="display:none;">
+          <label for="employeeSelect">Employee:</label>
+          <select id="employeeSelect"></select>
+        </div>
+      </div>
+
+      <div class="view-options" id="viewOptions" style="display:none;">
+        <button class="btn" id="viewBranchPerformanceReportBtn">Branch Performance</button>
+        <button class="btn" id="viewEmployeeSummaryBtn">Employee Summary</button>
+        <button class="btn" id="viewAllEntriesBtn">All Entries</button>
+        <button class="btn" id="viewPerformanceReportBtn">Performance Report</button>
+        <button class="btn" id="viewBranchVisitLeaderboardBtn">Visit Leaderboard</button>
+        <button class="btn" id="viewBranchCallLeaderboardBtn">Call Leaderboard</button>
+        <button class="btn" id="viewStaffParticipationBtn">Staff Participation</button>
+      </div>
+
+      <button class="btn download-btn" id="downloadOverallStaffPerformanceReportBtn">⬇ Download Staff Performance CSV</button>
+
+      <div id="reportDisplay" class="report-display">
+        <p>Select a report tab above to view data.</p>
+      </div>
+    </section>
+
+    <!-- ANALYTICS SECTION — NEW -->
+    <section id="analyticsSection" class="report-section">
+      <div class="controls-panel">
+        <div class="filter-group">
+          <label for="analyticsMonthSelect">Month:</label>
+          <select id="analyticsMonthSelect"></select>
+        </div>
+      </div>
+      <div id="analyticsDisplay" class="analytics-display">
+        <p>Loading analytics...</p>
+      </div>
+    </section>
+
+    <!-- NON-PARTICIPANT REPORT -->
+    <section id="nonParticipantReportSection" class="report-section">
+      <h2>Non-Participating Employees Report</h2>
+      <p class="section-desc">Employees from the Master list with zero activity for the selected month.</p>
+
+      <!-- Month filter for non-participant report — uses main monthSelect value -->
+      <div id="nonParticipantsMessage" class="message" style="display:none; margin-bottom:20px;"></div>
+
+      <div class="report-subsection">
+        <h3>Non-Participants — Visits</h3>
+        <button id="downloadNonParticipantsInVisitBtn" class="btn">⬇ Download CSV</button>
+        <div id="nonParticipantsInVisitDisplay" style="display:none;">
+          <table id="nonParticipantsInVisitTable">
+            <thead><tr><th>SL.</th><th>Employee Code</th><th>Employee Name</th><th>Division</th><th>Designation</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="nonParticipantsInVisitMessage" class="message" style="display:none;"></div>
+      </div>
+
+      <hr style="margin:30px 0; border:0; border-top:1px solid #eee;">
+
+      <div class="report-subsection">
+        <h3>Non-Participants — Calls</h3>
+        <button id="downloadNonParticipantsInCallBtn" class="btn">⬇ Download CSV</button>
+        <div id="nonParticipantsInCallDisplay" style="display:none;">
+          <table id="nonParticipantsInCallTable">
+            <thead><tr><th>SL.</th><th>Employee Code</th><th>Employee Name</th><th>Division</th><th>Designation</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="nonParticipantsInCallMessage" class="message" style="display:none;"></div>
+      </div>
+    </section>
+
+    <!-- EMPLOYEE MANAGEMENT -->
+    <section id="employeeManagementSection" class="report-section">
+      <h2>Employee Management</h2>
+      <div class="employee-management-controls">
+
+        <div class="management-form-container">
+          <h3>Add Employee</h3>
+          <form id="addEmployeeForm" class="management-form">
+            <label for="newEmployeeName">Name:</label>
+            <input type="text" id="newEmployeeName" required>
+            <label for="newEmployeeCode">Code:</label>
+            <input type="text" id="newEmployeeCode" required>
+            <label for="newBranchName">Branch:</label>
+            <select id="newBranchName" required></select>
+            <label for="newDesignation">Designation:</label>
+            <input type="text" id="newDesignation" required>
+            <button type="submit" class="btn">Add Employee</button>
+          </form>
+        </div>
+
+        <div class="management-form-container">
+          <h3>Bulk Add Employees</h3>
+          <form id="bulkAddEmployeeForm" class="management-form">
+            <label for="bulkEmployeeBranchName">Branch (for all below):</label>
+            <select id="bulkEmployeeBranchName" required></select>
+            <label for="bulkEmployeeDetails">Name, Code, Designation — one per line:</label>
+            <textarea id="bulkEmployeeDetails" rows="8"
+              placeholder="John Doe, E001, Sales Executive&#10;Jane Smith, E002, Marketing Officer"
+              required></textarea>
+            <button type="submit" class="btn">Bulk Add</button>
+          </form>
+        </div>
+
+        <div class="management-form-container">
+          <h3>Delete Employee</h3>
+          <form id="deleteEmployeeForm" class="management-form">
+            <label for="deleteEmployeeCode">Employee Code:</label>
+            <input type="text" id="deleteEmployeeCode" required>
+            <button type="submit" class="btn delete-btn">Delete Employee</button>
+          </form>
+        </div>
+
+      </div>
+      <div id="employeeManagementMessage" class="message" style="display:none;"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2025 SML Finance Ltd — Employee Canvassing Dashboard</p>
+  </footer>
+</div>
+
+<!-- CUSTOMER DETAILS MODAL -->
+<div id="customerDetailsModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" data-modal="customerDetailsModal">&times;</span>
+    <section id="detailedCustomerViewSection" class="report-section">
+      <h2>Detailed Customer View</h2>
+      <div class="controls-panel">
+        <div class="filter-group">
+          <label for="customerViewMonthSelect">Month:</label>
+          <select id="customerViewMonthSelect"></select>
+        </div>
+        <div class="filter-group">
+          <label for="customerViewBranchSelect">Branch:</label>
+          <select id="customerViewBranchSelect"></select>
+        </div>
+        <div class="filter-group">
+          <label for="customerViewEmployeeSelect">Employee:</label>
+          <select id="customerViewEmployeeSelect"></select>
+        </div>
+        <button class="btn" id="loadCustomerDataBtn">Load</button>
+      </div>
+
+      <div class="customer-list-display">
+        <h3>Canvassed Customers</h3>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Prospect Name</th><th>Phone</th><th>Activity</th><th>Date</th><th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="detailedCustomerReportTableBody">
+              <tr><td colspan="5">Select a branch, employee, and month to load customer data.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn download-btn" id="downloadDetailedCustomerReportBtn">⬇ Download Customer Report CSV</button>
+      </div>
+
+      <div class="customer-details-display" id="customerDetailsContent" style="display:none;">
+        <h3>Details: <span id="currentCustomerName"></span></h3>
+        <div id="statusMessage" style="color:red;"></div>
+        <div class="customer-details-card">
+          <div class="customer-info-section full-width-section" id="employeeBranchInfo">
+            <h3>Employee & Branch Info</h3>
+            <div class="detail-row"><div class="detail-label">Employee:</div><div class="detail-value" id="employeeNameValue"></div></div>
+            <div class="detail-row"><div class="detail-label">Branch:</div><div class="detail-value" id="branchNameValue"></div></div>
+          </div>
+          <div class="customer-info-section card-color-1" id="customerCard1"><h4>Contact & Basic Info</h4></div>
+          <div class="customer-info-section card-color-2" id="customerCard2"><h4>Activity & Interests</h4></div>
+          <div class="customer-info-section card-color-3" id="customerCard3"><h4>Family & Profile</h4></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- JULY DASHBOARD MODAL -->
+<div id="julyDashboardModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" data-modal="julyDashboardModal">&times;</span>
+    <section id="julyDashboardSection" class="report-section">
+      <h2>July Dashboard</h2>
+      <div id="julyDashboardMessage" class="message" style="display:none;"></div>
+      <div id="julyDashboardDisplay"><p>Loading July Dashboard data...</p></div>
+    </section>
+  </div>
+</div>
+
+<script src="core.js"></script>
+<script src="analytics.js"></script>
+<script src="nonparticipantsreport.js"></script>
+<script src="july_dashboard_tab.js"></script>
 </body>
 </html>

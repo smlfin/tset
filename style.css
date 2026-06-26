@@ -1750,3 +1750,189 @@ li.customer-list-item.active {
     display: block !important; /* Ensure it's always displayed within the modal */
 }
 }
+
+
+
+/* ═══════════════════════════════════════════════════════════════
+   EET OPTIMIZED — ADDITIONS
+   All new CSS below; original rules untouched above.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Login Box ─────────────────────────────────────────────── */
+#accessDeniedOverlay {
+  position: fixed; inset: 0;
+  background: linear-gradient(135deg, #1B5E20 0%, #388E3C 100%);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.login-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px 48px;
+  text-align: center;
+  max-width: 380px; width: 90%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+.login-logo {
+  font-size: 2.8em; font-weight: 900;
+  color: #2E7D32; letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+.login-box h2 { font-size: 1.1em; color: #555; margin: 0 0 4px; }
+.login-box p  { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+.login-form   { display: flex; flex-direction: column; gap: 12px; }
+.login-form input {
+  padding: 12px 16px; border: 1.5px solid #ddd; border-radius: 8px;
+  font-size: 1em; outline: none; transition: border-color .2s;
+}
+.login-form input:focus { border-color: #4CAF50; }
+.login-form button {
+  background: #2E7D32; color: #fff; border: none;
+  border-radius: 8px; padding: 12px; font-size: 1em;
+  cursor: pointer; font-weight: 600; transition: background .2s;
+}
+.login-form button:hover { background: #1B5E20; }
+#passwordErrorMessage {
+  color: #e53935; font-size: 0.9em; margin: 0;
+}
+
+/* ── Header Top ────────────────────────────────────────────── */
+.header-top {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 0 20px; box-sizing: border-box;
+}
+.header-meta { display: flex; align-items: center; gap: 8px; }
+.last-loaded { font-size: 0.75em; opacity: 0.8; }
+.btn-icon {
+  background: rgba(255,255,255,0.2); border: none; color: #fff;
+  border-radius: 50%; width: 30px; height: 30px;
+  font-size: 1.1em; cursor: pointer; line-height: 30px;
+  transition: background .2s;
+}
+.btn-icon:hover { background: rgba(255,255,255,0.35); }
+
+/* ── KPI Pulse Bar ─────────────────────────────────────────── */
+.kpi-pulse-bar {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 8px; padding: 10px 20px; background: #2E7D32;
+}
+.kpi-chip {
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 5px 14px;
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 80px;
+}
+.kpi-label { font-size: 0.65em; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-val   { font-size: 1.1em; font-weight: 700; }
+
+/* ── Tab nav wrapping on mobile ────────────────────────────── */
+.report-tabs { flex-wrap: wrap; }
+.tab-button  { font-size: 0.9em; padding: 10px 14px; }
+
+/* ── Branch totals sticky bar ───────────────────────────────── */
+.branch-totals-bar {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  background: #E8F5E9; border: 1px solid #C8E6C9;
+  border-radius: 8px; padding: 10px 16px;
+  margin-bottom: 16px;
+}
+.branch-totals-bar span { font-size: 0.9em; color: #2E7D32; }
+
+/* ── Row zero highlight in snapshot ────────────────────────── */
+.all-branch-snapshot-table tr.row-zero td { color: #aaa; font-style: italic; }
+
+/* ── Section description ────────────────────────────────────── */
+.section-desc { color: #777; font-size: 0.92em; margin: 0 0 16px; }
+
+/* ── Employee summary ───────────────────────────────────────── */
+.employee-summary-header {
+  display: flex; flex-direction: column; gap: 4px;
+  margin-bottom: 16px;
+}
+.employee-summary-header strong { font-size: 1.2em; }
+.summary-meta { color: #777; font-size: 0.9em; }
+.summary-metrics-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+.summary-metrics-table th, .summary-metrics-table td {
+  border: 1px solid #eee; padding: 8px 10px; text-align: left;
+}
+.summary-metrics-table thead th { background: #f5f5f5; font-weight: 600; }
+.proj-good { color: #2E7D32; font-weight: 600; }
+.proj-risk { color: #e53935; font-weight: 600; }
+.product-tags { margin-top: 8px; }
+.tag {
+  display: inline-block; background: #E8F5E9;
+  color: #2E7D32; border-radius: 4px;
+  padding: 2px 8px; font-size: 0.82em; margin: 2px;
+}
+
+/* ── Leaderboard medals ─────────────────────────────────────── */
+.leaderboard-table { width: 100%; border-collapse: collapse; }
+.leaderboard-table td, .leaderboard-table th {
+  padding: 10px 14px; border: 1px solid #eee;
+}
+.leaderboard-table thead th { background: #f5f5f5; }
+.leaderboard-table tr:nth-child(1) td { background: #fffde7; font-weight: 700; }
+.leaderboard-table tr:nth-child(2) td { background: #f5f5f5; }
+.leaderboard-table tr:nth-child(3) td { background: #fbe9e7; }
+
+/* ── Status cells ───────────────────────────────────────────── */
+.status-yes { color: #2E7D32; font-weight: 600; }
+.status-no  { color: #e53935; }
+
+/* ── Toast notification ─────────────────────────────────────── */
+.eet-toast {
+  position: fixed; bottom: 20px; left: 50%;
+  transform: translateX(-50%);
+  background: #323232; color: #fff;
+  padding: 10px 24px; border-radius: 24px;
+  font-size: 0.9em; z-index: 9999;
+  display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.eet-toast.success { background: #2E7D32; }
+.eet-toast.error   { background: #c62828; }
+.eet-toast.info    { background: #1565C0; }
+
+/* ── Analytics Tab ──────────────────────────────────────────── */
+.analytics-display { padding: 8px 0; }
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  gap: 20px;
+}
+.analytics-card {
+  background: #fff; border: 1px solid #e0e0e0;
+  border-radius: 10px; padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.analytics-card h3 { margin: 0 0 14px; font-size: 1em; color: #333; }
+.analytics-note { font-size: 0.82em; color: #888; margin: 0 0 10px; }
+.analytics-table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+.analytics-table th, .analytics-table td {
+  padding: 7px 10px; border: 1px solid #f0f0f0; text-align: left;
+}
+.analytics-table thead th { background: #F1F8E9; color: #2E7D32; font-weight: 600; }
+.analytics-table tr:hover td { background: #fafafa; }
+.kpi-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.kpi-mini {
+  flex: 1 1 80px; background: #F1F8E9;
+  border-radius: 8px; padding: 10px;
+  text-align: center;
+}
+.kpi-mini-val   { font-size: 1.5em; font-weight: 700; color: #2E7D32; }
+.kpi-mini-label { font-size: 0.72em; color: #666; }
+.month-progress-bar-wrap { margin-top: 8px; font-size: 0.88em; color: #555; }
+.good-msg { color: #2E7D32; font-weight: 500; }
+.momentum-up   { color: #2E7D32; font-weight: 600; }
+.momentum-down { color: #e53935; font-weight: 600; }
+
+/* ── Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .analytics-grid { grid-template-columns: 1fr; }
+  .kpi-pulse-bar  { gap: 5px; padding: 8px 10px; }
+  .kpi-chip       { min-width: 60px; padding: 4px 10px; }
+  .kpi-val        { font-size: 0.95em; }
+  .login-box      { padding: 28px 24px; }
+  .branch-totals-bar { flex-direction: column; }
+  header h1       { font-size: 1.2em; }
+}
+

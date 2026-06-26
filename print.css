@@ -1,0 +1,147 @@
+/* print.css - Tailored for Detailed Customer View */
+
+/* 1. General Print Reset & Hide Unnecessary Elements */
+body {
+    background-color: #fff !important;
+    color: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: Arial, sans-serif !important; /* Ensure a standard print font */
+    font-size: 10pt !important; /* Adjust base font size for print */
+    -webkit-print-color-adjust: exact; /* For WebKit to print backgrounds/colors */
+    print-color-adjust: exact; /* Standard property */
+}
+
+/* Hide most interactive and navigation elements */
+header,
+footer,
+.report-tabs,
+.controls-panel,
+.message-container,
+.btn,
+.customer-list-display, /* Hide the customer list, as we focus on the detailed view */
+#downloadOverallStaffPerformanceReportBtn,
+.report-section, /* Hide other report sections if they might interfere */
+.employee-management-section /* Hide employee management section */
+{
+    display: none !important;
+}
+
+/* 2. Main Content Area for Printing */
+main {
+    padding: 20px !important;
+    max-width: 100% !important; /* Use full page width */
+    margin: 0 !important;
+    background-color: #fff !important;
+    box-shadow: none !important; /* Remove shadows for print */
+    border-radius: 0 !important; /* Remove rounded corners */
+}
+
+/* Ensure the Detailed Customer View Section is displayed */
+#detailedCustomerViewSection {
+    display: block !important; /* Override 'none' from main stylesheet if active tab is not 'detailed-customer-view' */
+    flex-direction: column !important; /* Ensure vertical stacking for print for simplicity, or re-enable horizontal if space allows */
+    gap: 10px !important; /* Reduce gap for print efficiency */
+    padding-top: 0 !important; /* Remove extra top padding */
+    break-after: avoid-page; /* Try to keep this section on one page */
+}
+
+#detailedCustomerViewSection h2 {
+    color: #000 !important; /* Black heading for print */
+    text-align: center !important;
+    font-size: 1.5em !important; /* Slightly smaller for print */
+    margin-bottom: 15px !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid #ccc !important; /* Simple border */
+}
+
+/* 3. Customer Details Card (Contact, Activity, Family) Layout for Print */
+.customer-details-card {
+    display: block !important; /* Stack these sections vertically for cleaner print */
+    gap: 10px !important; /* Reduce gap between sections */
+    padding: 0 !important; /* Remove inner padding */
+    background-color: #fff !important;
+    border: none !important; /* Remove outer border for cleaner look */
+    box-shadow: none !important;
+    min-height: auto !important; /* Allow height to adjust to content */
+    overflow-y: visible !important; /* Ensure all content is visible */
+}
+
+.customer-info-section {
+    background-color: #fff !important;
+    border: 1px solid #eee !important; /* Light border for individual sections */
+    border-radius: 5px !important;
+    padding: 15px !important;
+    box-shadow: none !important;
+    margin-bottom: 15px !important; /* Space between sections */
+    break-inside: avoid; /* Avoid breaking this section across pages */
+}
+
+.customer-info-section h3 {
+    color: #333 !important; /* Darker heading for print */
+    font-size: 1.1em !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 5px !important;
+    border-bottom: 1px solid #ccc !important;
+}
+
+.detail-row {
+    flex-direction: row !important; /* Keep horizontal for label-value if space allows */
+    justify-content: space-between !important;
+    padding: 4px 0 !important; /* Reduced padding */
+    border-bottom: 1px dashed #ddd !important; /* Lighter dashed line */
+    align-items: baseline !important; /* Align text baselines */
+}
+
+.detail-row:last-child {
+    border-bottom: none !important;
+}
+
+.detail-label {
+    font-weight: bold !important;
+    color: #555 !important;
+    flex-basis: 35% !important; /* Adjust as needed */
+    min-width: 100px !important;
+    padding-right: 10px !important; /* Space between label and value */
+    text-align: left !important;
+}
+
+.detail-value {
+    color: #000 !important; /* Black value text */
+    flex-basis: 65% !important; /* Adjust as needed */
+    text-align: right !important; /* Align value to right */
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.remark-text, .profile-text {
+    line-height: 1.5 !important;
+    color: #222 !important;
+    text-align: left !important;
+    padding: 5px 0 !important;
+    font-size: 0.9em !important;
+}
+
+/* Ensure full width sections behave correctly */
+.full-width-section {
+    grid-column: auto !important; /* Reset grid column span for print */
+    width: 100% !important; /* Ensure it takes full width when stacked */
+}
+
+/* Print specific for customer detail cards if you are using them */
+.customer-cards-container {
+    display: none !important; /* Hide these if you only want the table-like details */
+}
+.customer-detail-card {
+    display: none !important; /* Hide these if you only want the table-like details */
+}
+
+/* Prevent unwanted page breaks */
+h2, h3, p {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+}
+
+table, tr, td {
+    page-break-inside: avoid;
+}

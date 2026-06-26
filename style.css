@@ -1,0 +1,1752 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 80px;
+    padding-bottom: 0; /* Adjust padding to make room for tabs below */
+}
+
+header h1 {
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 2em;
+}
+
+/* Tab Navigation Styles */
+.report-tabs {
+    display: flex;
+    justify-content: center; /* Center the tabs */
+    width: 100%;
+    background-color: #388E3C; /* Slightly darker green for tabs */
+    border-bottom: 3px solid #1B5E20; /* Darker border at the bottom of tabs */
+}
+
+.tab-button {
+    background-color: #388E3C;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    flex-grow: 1; /* Allow tabs to grow and fill space */
+    max-width: 250px; /* Limit max width for each tab */
+    text-align: center;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow */
+}
+
+.tab-button:hover {
+    background-color: #4CAF50;
+}
+
+.tab-button.active {
+    background-color: #1B5E20; /* Even darker green for active tab */
+    border-bottom: 3px solid white; /* Highlight active tab with a white border */
+    font-weight: bold;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+/* Message container styles */
+.message-container {
+    margin-bottom: 20px;
+    text-align: center;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.message {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: #4CAF50; /* Default info/success */
+    border: 1px solid #388E3C;
+    margin: 0 auto;
+    max-width: fit-content;
+}
+
+.message.error {
+    background-color: #e53935; /* Red for errors */
+    border-color: #c62828;
+}
+.message.success {
+    background-color: #4CAF50; /* Green for success */
+    border-color: #388E3C;
+}
+.message.info {
+    background-color: #2196F3; /* Blue for info */
+    border-color: #1976D2;
+}
+
+
+/* Section Display */
+.report-section, .employee-management-section, .detailed-customer-view-section {
+    display: none; /* Hidden by default, shown by JS based on active tab */
+    padding-top: 20px;
+}
+
+/* Controls Panel (Dropdowns and Buttons) */
+.controls-panel {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    align-items: flex-end; /* Align items to the bottom */
+}
+
+.dropdown-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Allow dropdowns to take available space */
+    min-width: 200px; /* Minimum width for each dropdown */
+}
+
+.dropdown-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.view-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn.active {
+    background-color: #28a745; /* Green for active button */
+}
+
+.btn.active:hover {
+    background-color: #218838;
+}
+
+.btn.danger-btn {
+    background-color: #dc3545;
+}
+.btn.danger-btn:hover {
+    background-color: #c82333;
+}
+
+
+/* Report Display Area */
+.report-display {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    min-height: 200px; /* Ensure space even when empty */
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.report-display h2 {
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.report-display p {
+    text-align: center;
+    color: #666;
+}
+
+/* Data Table Container for Horizontal Scrolling */
+.data-table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    width: 100%; /* Ensure it takes full width */
+    margin-top: 20px;
+}
+
+
+/* General Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9em;
+    min-width: 600px; /* Ensure a minimum width for better presentation */
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Keep headers above content when scrolling */
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Specific Table Styles */
+.all-branch-snapshot-table th:first-child,
+.all-branch-snapshot-table td:first-child {
+    width: 20%; /* Give more space for branch name */
+}
+
+/* Performance Table Styles */
+.performance-table th {
+    text-align: center;
+}
+.performance-table th[colspan="3"] {
+    background-color: #e0e0e0; /* Different background for grouped headers */
+}
+
+/* Progress Bar in Tables (Small) */
+.progress-bar-container-small {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    height: 20px;
+    overflow: hidden; /* Hide overflowing text */
+    text-align: center;
+    margin: auto; /* Center the bar */
+    display: flex; /* Use flex to center content vertically */
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white; /* Text color for the bar */
+}
+
+.progress-bar-container {
+    width: 100px; /* Fixed width for larger progress bars */
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    height: 25px;
+    overflow: hidden;
+    text-align: center;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px; /* Add some padding for text */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.progress-bar.success { background-color: #28a745; } /* Green */
+.progress-bar.warning-high { background-color: #ffc107; } /* Yellow */
+.progress-bar.warning-medium { background-color: #fd7e14; } /* Orange */
+.progress-bar.warning-low { background-color: #e53935; } /* Lighter Red */
+.progress-bar.danger { background-color: #c62828; } /* Dark Red */
+.progress-bar.no-activity { background-color: #6c757d; } /* Grey for N/A */
+
+
+/* Branch Performance Grid (d3.PNG) */
+.branch-performance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.employee-performance-card {
+    background-color: #fefefe;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.employee-performance-card h4 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.employee-performance-card table {
+    width: 100%;
+    margin-top: 0;
+    min-width: unset; /* Override general table min-width for cards */
+}
+.employee-performance-card th,
+.employee-performance-card td {
+    padding: 6px;
+    font-size: 0.85em;
+}
+
+/* Summary Breakdown Card (d4.PNG) */
+.summary-breakdown-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.summary-breakdown-card > div {
+    background-color: #fefefe;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.summary-breakdown-card h4 {
+    color: #4CAF50;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.summary-list, .product-interest-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.summary-list li, .product-interest-list li {
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-list li:last-child, .product-interest-list li:last-child {
+    border-bottom: none;
+}
+
+.summary-list strong {
+    color: #333;
+}
+
+/* Employee Management Section */
+.employee-management-section {
+    padding: 20px;
+}
+
+.employee-management-section h2 {
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.employee-management-section .message {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+.form-section {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.form-section h3 {
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.employee-form .form-group {
+    margin-bottom: 15px;
+}
+
+.employee-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.employee-form input[type="text"],
+.employee-form textarea {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.employee-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.employee-form button[type="submit"] {
+    width: auto;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: #333;
+    color: white;
+    font-size: 0.9em;
+}
+
+
+/* --- NEW: Detailed Customer View Specific Styles --- */
+#detailedCustomerViewSection {
+    display: flex; /* Use flexbox for layout of customer list and details */
+    flex-direction: column; /* Stack vertically by default */
+    gap: 20px; /* Space between list and details */
+    padding-top: 20px;
+}
+
+#detailedCustomerViewSection h2 {
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#detailedCustomerViewSection .controls-panel {
+    justify-content: center; /* Center dropdowns */
+    margin-bottom: 0; /* Remove extra margin */
+}
+
+.customer-list-display, .customer-details-display {
+    background-color: #fefefe;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    flex: 1; /* Allow these sections to grow */
+}
+
+.customer-list-display h3, .customer-details-display h3 {
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+ul.customer-list {
+    list-style: none;
+    padding: 0;
+    max-height: 400px; /* Max height for scrollable list */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+li.customer-list-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease, font-weight 0.2s ease;
+}
+
+li.customer-list-item:last-child {
+    border-bottom: none;
+}
+
+li.customer-list-item:hover {
+    background-color: #e6f7ff; /* Light blue on hover */
+}
+
+li.customer-list-item.active {
+    background-color: #d0efff; /* Slightly darker blue for active */
+    font-weight: bold;
+    color: #0056b3;
+}
+
+.customer-details-card {
+    /* Updated for a more engaging, multi-column layout for details */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Changed to force 3 columns by default */
+    gap: 20px; /* Space between sections */
+    padding: 10px;
+    background-color: #fdfdfd;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    min-height: 150px;
+    overflow-y: auto;
+}
+
+.customer-info-section {
+    background-color: #ffffff;
+    border: 1px solid #e9e9e9;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.customer-info-section h3 {
+    color: #4CAF50; /* Green for section headings */
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0; /* Subtle line under heading */
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: left; /* Align section heading left */
+}
+
+.detail-row {
+    display: flex; /* Use flexbox for label-value alignment */
+    justify-content: space-between; /* Space out label and value */
+    padding: 5px 0;
+    border-bottom: 1px dashed #f5f5f5; /* Light dashed line for separation */
+}
+
+.detail-row:last-child {
+    border-bottom: none; /* No border for the last item in a section */
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #555;
+    flex-basis: 40%; /* Give label a base width */
+    min-width: 120px; /* Ensure labels don't get too small */
+    text-align: left;
+}
+
+.detail-value {
+    color: #333;
+    flex-basis: 60%; /* Value takes remaining space */
+    text-align: right; /* Align value to the right */
+    word-wrap: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure wrapping works */
+}
+
+.remark-text, .profile-text {
+    line-height: 1.6;
+    color: #444;
+    text-align: justify; /* Justify text for paragraphs */
+    padding: 5px 0;
+}
+
+.full-width-section {
+    grid-column: 1 / -1; /* Make these sections span all columns */
+}
+
+
+/* --- Responsive Design --- */
+@media (min-width: 768px) {
+    .report-tabs {
+        justify-content: flex-start; /* Align tabs to start on larger screens */
+    }
+    .tab-button {
+        flex-grow: 0; /* Don't grow unnecessarily */
+        max-width: none; /* Remove max width constraint */
+    }
+
+    .controls-panel {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+
+    .dropdown-group {
+        flex: none; /* Don't flex grow */
+        width: auto; /* Auto width */
+    }
+
+    /* For detailed customer view on larger screens */
+    #detailedCustomerViewSection {
+        flex-direction: row; /* Layout side-by-side */
+    }
+
+    .customer-list-display {
+        flex: 1; /* Take one part of the space */
+        max-width: 350px; /* Give it a reasonable max-width */
+    }
+    .customer-details-display {
+        flex: 2; /* Take two parts of the space, making it wider */
+    }
+
+    @media (min-width: 768px) {
+    /* ... other styles ... */
+    .customer-details-card {
+        grid-template-columns: repeat(3, 1fr); /* **CHANGE THIS LINE** to force 3 columns */
+        gap: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    header {
+        padding: 15px 10px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+        padding-bottom: 5px;
+    }
+
+    .report-tabs {
+        flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+        padding: 5px;
+    }
+
+    .tab-button {
+        flex: 1 1 auto; /* Allow tabs to stretch or wrap as needed */
+        padding: 10px 10px;
+        font-size: 0.9em;
+        margin: 2px; /* Small margin between wrapped tabs */
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .controls-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dropdown-group {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .view-options {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn {
+        width: 100%; /* Full width buttons */
+    }
+
+    /* Responsive table for smaller screens */
+    table, .employee-performance-card table {
+        border: 0;
+        min-width: unset; /* Remove min-width for mobile */
+    }
+
+    table thead {
+        display: none; /* Hide headers on smaller screens */
+    }
+
+    table tr {
+        margin-bottom: 10px;
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    table td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%; /* Space for data-label */
+        font-size: 0.9em;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .performance-table th[colspan="3"] {
+        display: none; /* Hide main metric headers on mobile for simplicity */
+    }
+    .performance-table thead tr:last-child {
+        display: none; /* Hide sub-headers on mobile for simplicity */
+    }
+    .performance-table td[data-label="Metric"]::before {
+        display: none; /* No data-label for metric itself as it's the primary content */
+    }
+
+    /* Adjust for specific table cell in mobile view for all branch snapshot */
+    .all-branch-snapshot-table td[data-label="Branch Name"] {
+        text-align: center; /* Center the branch name on mobile */
+        font-size: 1.1em;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    /* Responsive adjustments for summary breakdown card (d4.PNG) */
+    .summary-breakdown-card {
+        grid-template-columns: 1fr; /* Stack sections vertically on mobile */
+        gap: 15px;
+    }
+
+    /* Customer details responsiveness */
+    .detail-row {
+        flex-direction: column; /* Stack label and value vertically on small screens */
+        align-items: flex-start; /* Align stacked items to the left */
+    }
+
+    .detail-label {
+        flex-basis: auto; /* Remove fixed basis */
+        min-width: auto;
+        width: 100%; /* Label takes full width */
+        text-align: left;
+        margin-bottom: 2px; /* Space between label and value */
+    }
+
+    .detail-value {
+        flex-basis: auto; /* Remove fixed basis */
+        width: 100%; /* Value takes full width */
+        text-align: left; /* Align value to the left */
+    }
+}
+
+/* No participation message style */
+.no-participation-message {
+    color: #e53935; /* Red */
+    font-weight: bold;
+    font-size: 1.1em;
+    margin: 10px 0;
+    text-align: center;
+}
+.non-participating-branch-list {
+    list-style: decimal inside; /* Numbered list */
+    padding-left: 20px;
+    margin-top: 20px;
+}
+.non-participating-branch-list li {
+    padding: 5px 0;
+    color: #333;
+}
+/* Detailed Customer View Cards */
+.customer-cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows cards to wrap to the next line on smaller screens */
+    gap: 20px; /* Space between cards */
+    justify-content: center; /* Center the cards horizontally */
+    margin-top: 20px;
+}
+
+.customer-detail-card {
+    flex: 1; /* Allows cards to grow and shrink */
+    min-width: 300px; /* Minimum width for each card */
+    max-width: calc(33% - 20px); /* Approximately one-third width minus gap */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff; /* Default text color for cards */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.customer-detail-card h3 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #fff; /* Heading color for cards */
+}
+
+.customer-detail-card p {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+/* Card Specific Colors */
+.card-color-1 {
+    background-color: #4CAF50; /* Green */
+}
+
+.card-color-2 {
+    background-color: #2196F3; /* Blue */
+}
+
+.card-color-3 {
+    background-color: #FFC107; /* Amber/Yellow */
+    color: #333; /* Darker text for better contrast on light background */
+}
+
+.card-color-3 h3 {
+    color: #333; /* Darker heading for better contrast on light background */
+}
+
+
+/* Responsive adjustments for customer detail cards */
+@media (max-width: 992px) {
+    .customer-detail-card {
+        max-width: calc(50% - 20px); /* Two cards per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .customer-detail-card {
+        max-width: 100%; /* Stack cards vertically on small screens */
+    }
+}
+/* All Branch Snapshot Table Enhancements */
+.all-branch-snapshot-table {
+    border: 1px solid #c8e6c9; /* Light green border for the whole table */
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensures rounded corners are visible */
+}
+
+.all-branch-snapshot-table th {
+    background-color: #e8f5e9; /* Lighter green background for headers */
+    color: #2e7d32; /* Darker green text for headers */
+    font-weight: bold;
+    padding: 12px 8px; /* More padding for headers */
+    text-transform: uppercase; /* Uppercase text for better readability */
+    font-size: 0.95em;
+}
+
+.all-branch-snapshot-table td {
+    padding: 10px 8px; /* Consistent padding for cells */
+}
+
+.all-branch-snapshot-table tbody tr:nth-child(even) {
+    background-color: #f9fdf9; /* Very light green for even rows */
+}
+
+.all-branch-snapshot-table tbody tr:hover {
+    background-color: #e0f2f1; /* Light teal on hover for a pleasant effect */
+    cursor: pointer; /* Indicate interactivity */
+}
+/* Dropdown Group and Select Enhancements */
+.dropdown-group {
+    background-color: #ffffff; /* White background for the group */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Subtle shadow for depth */
+    transition: box-shadow 0.3s ease;
+}
+
+.dropdown-group:focus-within {
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Green glow on focus */
+}
+
+.dropdown-group label {
+    font-size: 0.95em;
+    color: #4CAF50; /* Green label color */
+    margin-bottom: 8px; /* More space below label */
+    font-weight: bold;
+    letter-spacing: 0.5px; /* Slightly spaced letters */
+}
+
+select {
+    width: 100%; /* Ensure select takes full width of its container */
+    padding: 12px; /* More padding for a larger touch target */
+    border: 1px solid #a5d6a7; /* Light green border */
+    border-radius: 6px; /* Slightly more rounded corners */
+    background-color: #ffffff;
+    font-size: 1em;
+    color: #333;
+    appearance: none; /* Remove default system arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%234CAF50" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select:hover {
+    border-color: #81c784; /* Darker green on hover */
+}
+
+select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.4); /* Green shadow on focus */
+    outline: none;
+}
+/* Employee Performance Card Enhancements (Employee Summary) */
+.employee-performance-card {
+    background-color: #fcfcfc; /* Very light off-white background */
+    border: 1px solid #dce775; /* Soft yellow-green border */
+    border-radius: 12px; /* More rounded corners for a softer look */
+    padding: 20px; /* Increased padding */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07); /* More pronounced shadow */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.employee-performance-card:hover {
+    transform: translateY(-3px); /* Slight lift effect on hover */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* Enhanced shadow on hover */
+}
+
+.employee-performance-card h4 {
+    color: #33691e; /* Darker green for heading */
+    margin-bottom: 20px; /* More space below heading */
+    font-size: 1.2em; /* Slightly larger heading */
+    border-bottom: 2px solid #c5e1a5; /* Subtle border under heading */
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.employee-performance-card table {
+    margin-top: 15px; /* Space between heading and table */
+    border-collapse: separate; /* Allows border-spacing */
+    border-spacing: 0 8px; /* Space between table rows */
+}
+
+.employee-performance-card th,
+.employee-performance-card td {
+    padding: 10px; /* Increased padding within table cells */
+    font-size: 0.9em;
+    border: none; /* Remove individual cell borders for a cleaner look */
+}
+
+.employee-performance-card th {
+    background-color: #f0f4c3; /* Light yellow-green background for card table headers */
+    color: #555;
+    font-weight: normal; /* Less bold for a softer look */
+    text-align: left;
+    border-bottom: 1px solid #e6ee9c;
+}
+
+.employee-performance-card td {
+    background-color: #ffffff; /* White background for data cells */
+    border-bottom: 1px dashed #e0e0e0; /* Dashed line for subtle separation */
+}
+
+.employee-performance-card tbody tr:last-child td {
+    border-bottom: none; /* No border for the last row */
+}
+/* Further Enhancements for Activity Summary Table within Employee Performance Card */
+
+/* General table styling within the card */
+.employee-performance-card table {
+    border-collapse: separate; /* Allows border-spacing to create gaps */
+    border-spacing: 0 5px; /* Adds vertical space between rows */
+    width: 100%;
+    margin-top: 15px; /* Ensure space below card heading */
+}
+
+/* Table header styling */
+.employee-performance-card th {
+    background-color: #f1f8e9; /* Lighter, subtle green background for headers */
+    color: #4CAF50; /* Primary green color for text */
+    font-weight: bold;
+    padding: 10px 15px; /* More padding for header cells */
+    text-align: left;
+    border-bottom: 2px solid #c8e6c9; /* Distinct bottom border */
+    font-size: 0.9em;
+    text-transform: uppercase; /* Uppercase for a clean look */
+    letter-spacing: 0.5px;
+}
+
+/* Table data cell styling */
+.employee-performance-card td {
+    padding: 10px 15px; /* Consistent padding for data cells */
+    font-size: 0.88em;
+    color: #333;
+    background-color: #ffffff; /* White background for all cells by default */
+    border: 1px solid #e0e0e0; /* Subtle border for cells */
+    border-radius: 4px; /* Slightly rounded corners for cells */
+}
+
+/* Alternating row colors for better readability (zebra-striping) */
+.employee-performance-card tbody tr:nth-child(even) td {
+    background-color: #f9f9f9; /* Light grey for even rows */
+}
+
+/* Hover effect for rows */
+.employee-performance-card tbody tr:hover td {
+    background-color: #e8f5e9; /* Soft green on hover */
+    cursor: default; /* Indicate it's a data display, not clickable */
+}
+
+/* Remove bottom border for the last cell in a row to avoid double borders */
+.employee-performance-card td:last-child {
+    border-right: 1px solid #e0e0e0; /* Ensure right border for last cell */
+}
+
+/* Remove bottom border for the last row to prevent extra line */
+.employee-performance-card tbody tr:last-child td {
+    border-bottom: 1px solid #e0e0e0;
+}
+/* New styles for Branch Performance Reports */
+
+.branch-performance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 20px;
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.performance-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid #4CAF50; /* Green accent on the left */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.performance-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.performance-card h3 {
+    color: #333;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 8px;
+}
+
+.performance-card p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #4CAF50; /* Green text for the main value */
+    margin: 0;
+}
+
+.performance-card p strong {
+    color: #333; /* Branch name in darker color */
+}
+
+/* Styles for the Branch-wise Activity Breakdown table */
+.branch-summary-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px; /* Space between rows */
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.branch-summary-table thead th {
+    background-color: #e8f5e9; /* Light green header */
+    color: #2e7d32;
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #c8e6c9;
+}
+
+.branch-summary-table tbody tr td {
+    padding: 10px 15px;
+    border: 1px solid #f0f0f0; /* Light border for cells */
+    border-radius: 4px; /* Rounded cell corners */
+    background-color: #ffffff;
+    color: #555;
+}
+
+.branch-summary-table tbody tr:nth-child(even) td {
+    background-color: #f9fdf9; /* Very light background for even rows */
+}
+
+.branch-summary-table tbody tr:hover td {
+    background-color: #e0f2f1; /* Soft hover effect */
+}
+
+/* General info message style for reports */
+.info-message {
+    background-color: #e3f2fd; /* Light blue background */
+    color: #2196f3; /* Blue text */
+    padding: 15px;
+    border-left: 5px solid #2196f3;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: 1em;
+}
+/* Styles for Staff Participation Report */
+.status-participating {
+    color: #28a745; /* Green color for participating */
+    font-weight: bold;
+}
+
+.status-non-participating {
+    color: #dc3545; /* Red color for non-participating */
+    font-weight: bold;
+}
+/* Existing styles... */
+
+#reportDisplay {
+    padding: 20px;
+    background-color: #f8f9fa; /* Light grey background */
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#reportDisplay h2, #reportDisplay h3 {
+    color: #007bff; /* Primary blue for headings */
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+#reportDisplay p {
+    margin-bottom: 10px;
+    color: #333;
+}
+#reportDisplay h3 {
+    margin-top: 20px; /* Add more space before sub-headings */
+}
+
+.leaderboard-item {
+    background-color: #e9ecef; /* Light grey for each item */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribute branch and count */
+    border-left: 5px solid transparent; /* For color accent */
+}
+
+.leaderboard-item strong {
+    font-size: 1.1em;
+    color: #212529; /* Dark text for branch name */
+}
+
+.leaderboard-item span {
+    font-weight: bold;
+    font-size: 1em;
+    padding: 8px 15px;
+    border-radius: 4px;
+    color: black; /* Default white, will be overridden for max calls */
+}
+
+/* Colors for Max Visit */
+#reportDisplay h3:contains("Maximum Visits") + .leaderboard-item {
+    border-left-color: #28a745; /* Green for maximum */
+}
+#reportDisplay h3:contains("Maximum Visits") + .leaderboard-item span {
+    background-color: #28a745;
+    color: #333;
+    
+}
+
+/* Colors for Lowest Visit */
+#reportDisplay h3:contains("Lowest Visits") + .leaderboard-item {
+    border-left-color: #dc3545; /* Red for minimum */
+}
+#reportDisplay h3:contains("Lowest Visits") + .leaderboard-item span {
+    background-color: #dc3545;
+    color: #333;
+}
+
+/* Colors for Max Calls */
+#reportDisplay h3:contains("Maximum Calls") + .leaderboard-item {
+    border-left-color: #007bff; /* Blue for maximum calls */
+}
+#reportDisplay h3:contains("Maximum Calls") + .leaderboard-item span {
+    background-color: #007bff;
+    color: #333; /* Make text black for Maximum Calls */
+}
+
+/* Colors for Lowest Calls */
+#reportDisplay h3:contains("Lowest Calls") + .leaderboard-item {
+    border-left-color: #ffc107; /* Yellow/Amber for lowest calls */
+}
+#reportDisplay h3:contains("Lowest Calls") + .leaderboard-item span {
+    background-color: #ffc107;
+     color: #333;
+}
+.all-branch-snapshot-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden; /* To contain the border-radius of header/footer */
+}
+
+.all-branch-snapshot-table th,
+.all-branch-snapshot-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.all-branch-snapshot-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.all-branch-snapshot-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.all-branch-snapshot-table tbody tr:hover {
+    background-color: #e0f7fa;
+}
+.performance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow-x: auto; /* Enable horizontal scrolling for wide tables */
+}
+
+.performance-table th,
+.performance-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #dee2e6;
+    text-align: left;
+    white-space: nowrap; /* Prevent text wrapping in cells */
+}
+
+.performance-table th {
+    background-color: #6c757d; /* Darker grey for header */
+    color: white;
+    font-weight: bold;
+}
+
+.performance-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.performance-table tbody tr:hover {
+    background-color: #e6e6e6;
+}
+
+.data-table-container {
+    overflow-x: auto; /* Enable horizontal scrolling for the container */
+}
+
+.status-participating {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block; /* Make it behave like text */
+}
+
+.status-non-participating {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block; /* Make it behave like text */
+}
+/* New style to arrange two tables horizontally */
+.two-tables-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow tables to wrap to the next line on smaller screens */
+    gap: 20px; /* Space between the two tables */
+    justify-content: space-around; /* Distribute space around items */
+    margin-top: 15px;
+}
+
+.two-tables-container .all-branch-snapshot-table {
+    flex: 1; /* Allow tables to grow and shrink */
+    min-width: 300px; /* Minimum width before wrapping */
+    max-width: 48%; /* Max width to ensure two tables fit side-by-side with gap */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Add a subtle shadow to individual tables */
+}
+
+/* Adjust general table styles if needed for the new layout */
+.all-branch-snapshot-table {
+    border-radius: 8px; /* Slightly more rounded corners for the tables */
+    overflow: hidden; /* Ensures borders and shadows are contained */
+}
+
+.all-branch-snapshot-table th {
+    /* Keep existing styles or adjust if necessary */
+    background-color: #007bff; /* Consistent blue header */
+    color: white;
+}
+/* Styling for the new Download Overall Staff Performance CSV button */
+#downloadOverallStaffPerformanceReportBtn {
+    background-color: #007bff; /* A nice blue color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px; /* Add some space above the button */
+    transition: background-color 0.3s ease;
+    display: block; /* Ensure it takes up its own line and is not inline-hidden */
+    width: fit-content; /* Adjust width to content */
+}
+
+#downloadOverallStaffPerformanceReportBtn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+/* --- NEW: Detailed Customer View Specific Styles --- */
+#detailedCustomerViewSection {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased space between list and details */
+    padding-top: 25px;
+}
+
+#detailedCustomerViewSection h2 {
+    color: #2e7d32; /* Darker green for main heading */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    font-weight: 600;
+}
+
+#detailedCustomerViewSection .controls-panel {
+    justify-content: center;
+    margin-bottom: 0;
+    background-color: #ffffff; /* Consistent white background for controls */
+    border: 1px solid #e0e0e0;
+    border-radius: 10px; /* Slightly more rounded */
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Enhanced shadow */
+}
+
+.customer-list-display, .customer-details-display {
+    background-color: #ffffff; /* Pure white background */
+    border: 1px solid #d4edda; /* Light green border for a softer look */
+    border-radius: 12px; /* More rounded corners */
+    padding: 25px; /* Increased padding */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08); /* More prominent shadow */
+    flex: 1;
+    transition: box-shadow 0.3s ease; /* Smooth shadow transition */
+}
+
+.customer-list-display:hover, .customer-details-display:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12); /* Slightly larger shadow on hover */
+}
+
+.customer-list-display h3, .customer-details-display h3 {
+    color: #4CAF50; /* Primary green for section headings */
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e8f5e9; /* Light green bottom border */
+    padding-bottom: 12px;
+    font-size: 1.6em; /* Larger heading */
+    text-align: center;
+    font-weight: 600;
+}
+
+ul.customer-list {
+    list-style: none;
+    padding: 0;
+    max-height: 450px; /* Slightly increased max height */
+    overflow-y: auto;
+    border: 1px solid #c8e6c9; /* Greenish border for the list container */
+    border-radius: 8px; /* Rounded corners for the list */
+    background-color: #fcfcfc; /* Very light background for the list */
+}
+
+li.customer-list-item {
+    padding: 12px 20px; /* More padding */
+    border-bottom: 1px solid #e0f2f1; /* Lighter, subtle border */
+    cursor: pointer;
+    transition: background-color 0.3s ease, font-weight 0.3s ease, color 0.3s ease;
+    font-size: 1.05em; /* Slightly larger font */
+    color: #444; /* Darker default text */
+}
+
+li.customer-list-item:last-child {
+    border-bottom: none;
+}
+
+li.customer-list-item:hover {
+    background-color: #e8f5e9; /* Soft green on hover */
+    color: #2e7d32; /* Darker green text on hover */
+}
+
+li.customer-list-item.active {
+    background-color: #d4edda; /* Muted green for active tab */
+    font-weight: bold;
+    color: #1b5e20; /* Very dark green for active text */
+    border-left: 5px solid #4CAF50; /* Stronger active indicator */
+    padding-left: 15px; /* Adjust padding due to border */
+}
+
+.customer-details-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Adjusted min-width for better spacing */
+    gap: 25px; /* Increased space between sections */
+    padding: 15px;
+    background-color: #fefefe; /* Very light background for the card */
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    min-height: 180px; /* Slightly increased min-height */
+    overflow-y: auto;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.03); /* Inner shadow for depth */
+}
+
+.customer-info-section {
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0; /* Lighter border */
+    border-radius: 8px;
+    padding: 20px; /* Increased padding */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* Subtle shadow for each section */
+    transition: transform 0.2s ease;
+}
+
+.customer-info-section:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.customer-info-section h3 {
+    color: #33691e; /* Dark green for section headings */
+    margin-top: 0;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c5e1a5; /* Softer, green border */
+    font-size: 1.25em; /* Slightly larger heading */
+    font-weight: bold;
+    text-align: left;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0; /* More vertical padding */
+    border-bottom: 1px dashed #e0e0e0; /* Slightly darker dashed line */
+    align-items: flex-start; /* Align items to the start for better multi-line handling */
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 600; /* Slightly bolder */
+    color: #555;
+    flex-basis: 45%; /* Adjusted basis */
+    min-width: 140px; /* Increased min-width */
+    text-align: left;
+    line-height: 1.4; /* Better line height for labels */
+}
+
+.detail-value {
+    color: #333;
+    flex-basis: 55%; /* Adjusted basis */
+    text-align: right;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4; /* Consistent line height */
+}
+
+.remark-text, .profile-text {
+    line-height: 1.7; /* Increased line height for better readability */
+    color: #444;
+    text-align: left; /* Changed to left for better flow, avoid jagged edges */
+    padding: 10px 0; /* Increased padding */
+    font-size: 0.95em;
+}
+
+.full-width-section {
+    grid-column: 1 / -1;
+}
+
+
+/* --- Responsive Design --- */
+@media (min-width: 768px) {
+    #detailedCustomerViewSection {
+        flex-direction: row;
+    }
+
+    .customer-list-display {
+        flex: 1;
+        max-width: 380px; /* Slightly increased max-width for list */
+    }
+    .customer-details-display {
+        flex: 2.5; /* Made details section wider */
+    }
+
+    .customer-details-card {
+        display: grid;
+    grid-template-columns: 1fr; /* This default is good for mobile, stacks vertically */
+    gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Existing responsive table styles should be considered */
+
+    /* Customer details responsiveness */
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 0; /* More padding when stacked */
+    }
+
+    .detail-label {
+        width: 100%;
+        margin-bottom: 5px; /* More space between label and value */
+    }
+
+    .detail-value {
+        width: 100%;
+        text-align: left;
+    }
+
+    .customer-list-display, .customer-details-display {
+        padding: 20px; /* Slightly less padding on small screens */
+    }
+    .customer-list-display h3, .customer-details-display h3 {
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+    li.customer-list-item {
+        padding: 10px 15px;
+    }
+    .customer-details-card {
+        padding: 10px;
+        gap: 20px;
+    }
+    .customer-info-section {
+        padding: 15px;
+    }
+}
+/* --- Styles for Non-Participants Report - Visually Pleasing --- */
+
+/* Container for the scrollable table */
+#nonParticipantsDisplay {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-top: 25px;
+    padding: 20px;
+    /* max-height and overflow-y are removed here */
+}
+
+/* Table styling for non-participants */
+#nonParticipantsTable {
+    width: 100%; /* Table takes full width of its container */
+    border-collapse: separate; /* Use 'separate' for rounded corners/spacing */
+    border-spacing: 0 8px; /* Add vertical spacing between rows */
+    font-size: 0.95em; /* Slightly smaller font for density */
+}
+
+#nonParticipantsTable th,
+#nonParticipantsTable td {
+    padding: 12px 18px; /* Generous padding for cells */
+    text-align: left;
+    border: none; /* Remove individual cell borders for a cleaner look */
+    /* white-space: nowrap; // Uncomment if you prefer single-line cells that may cause horizontal scroll */
+}
+
+#nonParticipantsTable thead th {
+    background-color: #e0f2f1; /* Light teal background for header row */
+    color: #26a69a; /* Darker teal text for header */
+    font-weight: 600; /* Slightly bolder */
+    text-transform: uppercase; /* Uppercase headers */
+    letter-spacing: 0.05em; /* Little spacing for readability */
+    position: sticky; /* Make headers stick when scrolling */
+    top: 0; /* Sticks to the top of the scrollable container */
+    z-index: 2; /* Ensure headers are above scrolling content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow for sticky header */
+}
+
+/* Apply rounded corners only to the first/last headers for consistency */
+#nonParticipantsTable thead th:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+#nonParticipantsTable thead th:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+
+#nonParticipantsTable tbody tr {
+    background-color: #fcfcfc; /* Very light background for rows */
+    border-radius: 6px; /* Rounded corners for individual rows */
+    overflow: hidden; /* Ensures background and shadow respect border-radius */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth hover effect */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow for each row */
+}
+
+#nonParticipantsTable tbody tr:hover {
+    background-color: #e0f2f1; /* Light teal on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
+}
+
+#nonParticipantsTable tbody tr:last-child {
+    border-bottom: none; /* No bottom border for the last row */
+}
+
+/* Specific styling for the table cells to ensure background fills the rounded row */
+#nonParticipantsTable tbody td:first-child {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+#nonParticipantsTable tbody td:last-child {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+
+/* Message area for non-participants report */
+#nonParticipantsMessage {
+    background-color: #e6f7ff; /* Light blue background for messages */
+    color: #0056b3; /* Darker blue text */
+    border: 1px solid #99d6ff; /* Blue border */
+    border-radius: 5px;
+    padding: 12px 18px;
+    margin-top: 25px; /* Spacing below the table/button */
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+/* Adjust general button style if needed for download button */
+#downloadNonParticipantsReportBtn {
+    background-color: #28a745; /* A standard green for success/download */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px; /* Space between button and report area */
+}
+
+#downloadNonParticipantsReportBtn:hover {
+    background-color: #218838; /* Darker green on hover */
+/* Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top (higher than other elements) */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px; /* Location of the box */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 5% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 900px; /* Max width for larger screens */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 8px;
+    position: relative; /* For positioning the close button */
+}
+
+/* The Close Button */
+.close-button {
+    color: #aaa;
+    float: right; /* Positions it to the right */
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+/* Styles for the section inside the modal to ensure it looks good */
+#detailedCustomerViewSection {
+    padding: 0; /* Remove default section padding if any */
+    margin-top: 20px; /* Add some space below close button */
+    display: block !important; /* Ensure it's always displayed within the modal */
+}
+}

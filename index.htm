@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,9 @@
 </head>
 <body>
 
-<!-- LOGIN OVERLAY -->
+<!-- ═══════════════════════════════════════
+     LOGIN OVERLAY
+     ═══════════════════════════════════════ -->
 <div id="accessDeniedOverlay">
   <div class="login-box">
     <div class="login-logo">EET</div>
@@ -24,7 +25,9 @@
   </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
+<!-- ═══════════════════════════════════════
+     MAIN DASHBOARD
+     ═══════════════════════════════════════ -->
 <div id="dashboardContent" style="display:none;">
 
   <header>
@@ -36,32 +39,32 @@
       </div>
     </div>
 
-    <!-- KPI PULSE BAR — always visible, updates on data load -->
+    <!-- KPI Pulse Bar -->
     <div id="kpiPulseBar" class="kpi-pulse-bar">
-      <div class="kpi-chip" id="kpiTotalVisits"><span class="kpi-label">Visits</span><span class="kpi-val">—</span></div>
-      <div class="kpi-chip" id="kpiTotalCalls"><span class="kpi-label">Calls</span><span class="kpi-val">—</span></div>
-      <div class="kpi-chip" id="kpiTotalLeads"><span class="kpi-label">New Leads</span><span class="kpi-val">—</span></div>
-      <div class="kpi-chip" id="kpiActiveBranches"><span class="kpi-label">Active Branches</span><span class="kpi-val">—</span></div>
-      <div class="kpi-chip" id="kpiActiveStaff"><span class="kpi-label">Active Staff</span><span class="kpi-val">—</span></div>
-      <div class="kpi-chip" id="kpiMonthProgress"><span class="kpi-label">Month Progress</span><span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiTotalVisits">   <span class="kpi-label">Visits</span>          <span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiTotalCalls">    <span class="kpi-label">Calls</span>           <span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiTotalLeads">    <span class="kpi-label">New Leads</span>       <span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiActiveBranches"><span class="kpi-label">Active Branches</span> <span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiActiveStaff">   <span class="kpi-label">Active Staff</span>    <span class="kpi-val">—</span></div>
+      <div class="kpi-chip" id="kpiMonthProgress"> <span class="kpi-label">Month Progress</span>  <span class="kpi-val">—</span></div>
     </div>
 
     <nav class="report-tabs">
-      <button class="tab-button active" data-tab="reportsSection" id="allBranchSnapshotTabBtn">All Branch Snapshot</button>
-      <button class="tab-button" data-tab="reportsSection" id="allStaffOverallPerformanceTabBtn">Overall Staff</button>
-      <button class="tab-button" data-tab="reportsSection" id="nonParticipatingBranchesTabBtn">Zero Visit Branches</button>
-      <button class="tab-button" data-tab="reportsSection" id="branchPerformanceTabBtn">Branch Performance</button>
-      <button class="tab-button" data-tab="analyticsSection" id="analyticsTabBtn">📊 Analytics</button>
-      <button class="tab-button" data-tab="customerDetailsModal" id="detailedCustomerViewTabBtn">Customer View</button>
-      <button class="tab-button" data-tab="employeeManagementSection" id="employeeManagementTabBtn">Employee Mgmt</button>
-      <button class="tab-button" data-tab="nonParticipantReportSection" id="nonParticipantReportTabBtn">Non-Participant</button>
-      <button class="tab-button" data-tab="julyDashboardModal" id="julyDashboardTabBtn">July Dashboard</button>
+      <button class="tab-button active" id="allBranchSnapshotTabBtn">All Branch Snapshot</button>
+      <button class="tab-button"        id="allStaffOverallPerformanceTabBtn">Overall Staff Performance</button>
+      <button class="tab-button"        id="nonParticipatingBranchesTabBtn">Zero Visit Branches</button>
+      <button class="tab-button"        id="branchPerformanceTabBtn">Branch Performance</button>
+      <button class="tab-button"        id="analyticsTabBtn">📊 Analytics</button>
+      <button class="tab-button"        id="detailedCustomerViewTabBtn">Detailed Customer View</button>
+      <button class="tab-button"        id="employeeManagementTabBtn">Employee Management</button>
+      <button class="tab-button"        id="nonParticipantReportTabBtn">Non-Participant Report</button>
+      <button class="tab-button"        id="julyDashboardTabBtn">July Dashboard</button>
     </nav>
   </header>
 
   <main>
 
-    <!-- REPORTS SECTION (Snapshot, Overall, Zero-Visit, Branch) -->
+    <!-- ── Reports Section (Snapshot / Overall / Zero-Visit / Branch) ── -->
     <section id="reportsSection" class="report-section active">
       <div class="controls-panel">
         <div class="filter-group">
@@ -88,14 +91,14 @@
         <button class="btn" id="viewStaffParticipationBtn">Staff Participation</button>
       </div>
 
-      <button class="btn download-btn" id="downloadOverallStaffPerformanceReportBtn">⬇ Download Staff Performance CSV</button>
+      <button class="btn download-btn" id="downloadOverallStaffPerformanceReportBtn">⬇ Download Overall Staff Performance CSV</button>
 
       <div id="reportDisplay" class="report-display">
         <p>Select a report tab above to view data.</p>
       </div>
     </section>
 
-    <!-- ANALYTICS SECTION — NEW -->
+    <!-- ── Analytics Section (NEW) ── -->
     <section id="analyticsSection" class="report-section">
       <div class="controls-panel">
         <div class="filter-group">
@@ -104,24 +107,26 @@
         </div>
       </div>
       <div id="analyticsDisplay" class="analytics-display">
-        <p>Loading analytics...</p>
+        <p>Loading analytics…</p>
       </div>
     </section>
 
-    <!-- NON-PARTICIPANT REPORT -->
+    <!-- ── Non-Participant Report Section ── -->
     <section id="nonParticipantReportSection" class="report-section">
       <h2>Non-Participating Employees Report</h2>
-      <p class="section-desc">Employees from the Master list with zero activity for the selected month.</p>
+      <p class="section-desc">Employees from the Master list with zero activity for the currently selected month.</p>
 
-      <!-- Month filter for non-participant report — uses main monthSelect value -->
       <div id="nonParticipantsMessage" class="message" style="display:none; margin-bottom:20px;"></div>
 
+      <!-- Non-Participants in Visit -->
       <div class="report-subsection">
         <h3>Non-Participants — Visits</h3>
         <button id="downloadNonParticipantsInVisitBtn" class="btn">⬇ Download CSV</button>
-        <div id="nonParticipantsInVisitDisplay" style="display:none;">
+        <div id="nonParticipantsInVisitDisplay" class="customer-list-display" style="display:none;">
           <table id="nonParticipantsInVisitTable">
-            <thead><tr><th>SL.</th><th>Employee Code</th><th>Employee Name</th><th>Division</th><th>Designation</th></tr></thead>
+            <thead>
+              <tr><th>SL.</th><th>Employee Code</th><th>Employee Name</th><th>Division</th><th>Designation</th></tr>
+            </thead>
             <tbody></tbody>
           </table>
         </div>
@@ -130,12 +135,15 @@
 
       <hr style="margin:30px 0; border:0; border-top:1px solid #eee;">
 
+      <!-- Non-Participants in Call -->
       <div class="report-subsection">
         <h3>Non-Participants — Calls</h3>
         <button id="downloadNonParticipantsInCallBtn" class="btn">⬇ Download CSV</button>
-        <div id="nonParticipantsInCallDisplay" style="display:none;">
+        <div id="nonParticipantsInCallDisplay" class="customer-list-display" style="display:none;">
           <table id="nonParticipantsInCallTable">
-            <thead><tr><th>SL.</th><th>Employee Code</th><th>Employee Name</th><th>Division</th><th>Designation</th></tr></thead>
+            <thead>
+              <tr><th>SL.</th><th>Employee Code</th><th>Employee Name</th><th>Division</th><th>Designation</th></tr>
+            </thead>
             <tbody></tbody>
           </table>
         </div>
@@ -143,7 +151,7 @@
       </div>
     </section>
 
-    <!-- EMPLOYEE MANAGEMENT -->
+    <!-- ── Employee Management Section ── -->
     <section id="employeeManagementSection" class="report-section">
       <h2>Employee Management</h2>
       <div class="employee-management-controls">
@@ -169,7 +177,7 @@
             <label for="bulkEmployeeBranchName">Branch (for all below):</label>
             <select id="bulkEmployeeBranchName" required></select>
             <label for="bulkEmployeeDetails">Name, Code, Designation — one per line:</label>
-            <textarea id="bulkEmployeeDetails" rows="8"
+            <textarea id="bulkEmployeeDetails" rows="10"
               placeholder="John Doe, E001, Sales Executive&#10;Jane Smith, E002, Marketing Officer"
               required></textarea>
             <button type="submit" class="btn">Bulk Add</button>
@@ -194,14 +202,18 @@
   <footer>
     <p>&copy; 2025 SML Finance Ltd — Employee Canvassing Dashboard</p>
   </footer>
-</div>
+</div><!-- /#dashboardContent -->
 
-<!-- CUSTOMER DETAILS MODAL -->
+<!-- ═══════════════════════════════════════
+     CUSTOMER DETAILS MODAL
+     ═══════════════════════════════════════ -->
 <div id="customerDetailsModal" class="modal">
-  <div class="modal-content">
-    <span class="close-button" data-modal="customerDetailsModal">&times;</span>
+  <div class="modal-content modal-content-wide">
+    <span class="close-button" id="closeCustomerModalBtn">&times;</span>
+
     <section id="detailedCustomerViewSection" class="report-section">
       <h2>Detailed Customer View</h2>
+
       <div class="controls-panel">
         <div class="filter-group">
           <label for="customerViewMonthSelect">Month:</label>
@@ -215,16 +227,21 @@
           <label for="customerViewEmployeeSelect">Employee:</label>
           <select id="customerViewEmployeeSelect"></select>
         </div>
-        <button class="btn" id="loadCustomerDataBtn">Load</button>
+        <button class="btn" id="loadCustomerDataBtn">Load Customer Data</button>
       </div>
 
+      <!-- Customer List Table -->
       <div class="customer-list-display">
         <h3>Canvassed Customers</h3>
         <div class="table-container">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Prospect Name</th><th>Phone</th><th>Activity</th><th>Date</th><th>Details</th>
+                <th>Prospect Name</th>
+                <th>Phone</th>
+                <th>Activity Type</th>
+                <th>Date</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody id="detailedCustomerReportTableBody">
@@ -235,35 +252,59 @@
         <button class="btn download-btn" id="downloadDetailedCustomerReportBtn">⬇ Download Customer Report CSV</button>
       </div>
 
+      <!-- Customer Detail Cards (shown on row click or "View Details") -->
       <div class="customer-details-display" id="customerDetailsContent" style="display:none;">
-        <h3>Details: <span id="currentCustomerName"></span></h3>
-        <div id="statusMessage" style="color:red;"></div>
+        <h3>Details for: <span id="currentCustomerName"></span></h3>
+        <div id="statusMessage" style="color:red; margin-bottom:10px;"></div>
+
         <div class="customer-details-card">
+          <!-- Employee & Branch Info -->
           <div class="customer-info-section full-width-section" id="employeeBranchInfo">
-            <h3>Employee & Branch Info</h3>
-            <div class="detail-row"><div class="detail-label">Employee:</div><div class="detail-value" id="employeeNameValue"></div></div>
-            <div class="detail-row"><div class="detail-label">Branch:</div><div class="detail-value" id="branchNameValue"></div></div>
+            <h3>Employee &amp; Branch Info</h3>
+            <div class="detail-row">
+              <div class="detail-label">Employee Name:</div>
+              <div class="detail-value" id="employeeNameValue"></div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Branch Name:</div>
+              <div class="detail-value" id="branchNameValue"></div>
+            </div>
           </div>
-          <div class="customer-info-section card-color-1" id="customerCard1"><h4>Contact & Basic Info</h4></div>
-          <div class="customer-info-section card-color-2" id="customerCard2"><h4>Activity & Interests</h4></div>
-          <div class="customer-info-section card-color-3" id="customerCard3"><h4>Family & Profile</h4></div>
+
+          <!-- Card 1: Contact & Basic Info -->
+          <div class="customer-info-section card-color-1" id="customerCard1">
+            <h4>Contact &amp; Basic Info</h4>
+          </div>
+
+          <!-- Card 2: Activity & Interests -->
+          <div class="customer-info-section card-color-2" id="customerCard2">
+            <h4>Activity &amp; Interests</h4>
+          </div>
+
+          <!-- Card 3: Family & Profile -->
+          <div class="customer-info-section card-color-3" id="customerCard3">
+            <h4>Family &amp; Profile</h4>
+          </div>
         </div>
       </div>
+
     </section>
   </div>
-</div>
+</div><!-- /#customerDetailsModal -->
 
-<!-- JULY DASHBOARD MODAL -->
+<!-- ═══════════════════════════════════════
+     JULY DASHBOARD MODAL
+     ═══════════════════════════════════════ -->
 <div id="julyDashboardModal" class="modal">
   <div class="modal-content">
-    <span class="close-button" data-modal="julyDashboardModal">&times;</span>
+    <span class="close-button" id="closeJulyDashboardModalBtn">&times;</span>
     <section id="julyDashboardSection" class="report-section">
       <h2>July Dashboard</h2>
       <div id="julyDashboardMessage" class="message" style="display:none;"></div>
-      <div id="julyDashboardDisplay"><p>Loading July Dashboard data...</p></div>
+      <div id="julyDashboardDisplay"><p>Loading July Dashboard data…</p></div>
     </section>
   </div>
-</div>
+</div><!-- /#julyDashboardModal -->
 
 <script src="core.js"></script>
 <script src="analytics.js"></script>

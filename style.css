@@ -1750,9 +1750,6 @@ li.customer-list-item.active {
     display: block !important; /* Ensure it's always displayed within the modal */
 }
 }
-
-
-
 /* ═══════════════════════════════════════════════════════════════
    EET OPTIMIZED — ADDITIONS
    All new CSS below; original rules untouched above.
@@ -1935,4 +1932,3 @@ li.customer-list-item.active {
   .branch-totals-bar { flex-direction: column; }
   header h1       { font-size: 1.2em; }
 }
-
